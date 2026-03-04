@@ -15,12 +15,13 @@ public class Column : MonoBehaviour
 
     // Cache references for performance
     private Camera playerCamera;
-    private Collider2D columnCollider;
+    private BoxCollider2D columnCollider;
+    [SerializeField] private float colliderOffsetSize = 1f;
 
     private void Awake()
     {
         playerCamera = Camera.main;
-        columnCollider = GetComponentInChildren<Collider2D>();
+        columnCollider = GetComponentInChildren<BoxCollider2D>();
         ApplyGap();
     }
 
@@ -54,6 +55,7 @@ public class Column : MonoBehaviour
         float halfGap = gapSize / 2f;
         topColumn.localPosition = new Vector3(0, halfGap, 0);
         bottomColumn.localPosition = new Vector3(0, -halfGap, 0);
+        columnCollider.size = new Vector2(columnCollider.size.x, gapSize - colliderOffsetSize);
     }
 
     // Update is called once per frame
