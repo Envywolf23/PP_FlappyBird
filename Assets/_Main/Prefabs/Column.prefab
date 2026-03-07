@@ -714,7 +714,8 @@ MonoBehaviour:
   topColumn: {fileID: 3843022930184182100}
   bottomColumn: {fileID: 8794360625571729753}
   gapSize: 3
-  columnCollider: {fileID: 0}
+  colliderOffsetSize: 1
+  boundaryX: -5
 --- !u!1 &5647106146254455389
 GameObject:
   m_ObjectHideFlags: 0

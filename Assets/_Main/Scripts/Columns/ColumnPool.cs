@@ -39,7 +39,7 @@ public class ColumnPool : MonoBehaviour
         // If all columns are active, create a new one
         Column newColumn = CreateNewColumn();
         columnPool.Enqueue(newColumn);
-        Debug.Log($"[ColumnPool] Pool expanded to {columnPool.Count} instances");
+        //Debug.Log($"[ColumnPool] Pool expanded to {columnPool.Count} instances");
         return newColumn;
     }
 

@@ -11,12 +11,14 @@ public class Column : MonoBehaviour
     [SerializeField] private float gapSize = 3f;
 
     private bool isMoving = true;
-    private bool alreadyDetected = false;
 
     // Cache references for performance
     private Camera playerCamera;
     private BoxCollider2D columnCollider;
     [SerializeField] private float colliderOffsetSize = 1f;
+
+    //[SerializeField] private float boundaryX;
+    //private float deactivationTimer = 0f;
 
     private void Awake()
     {
@@ -64,29 +66,16 @@ public class Column : MonoBehaviour
         if (!isMoving) return;
 
         transform.Translate(speed * Time.deltaTime * -1f, 0, 0);
-        
-        if (IsVisible())
-        {
-            alreadyDetected = true;
-        }
-        else if (alreadyDetected)
-        {
-            Deactivate();
-        }
+
+        //if (deactivationTimer > 0f)
+        //{
+        //    deactivationTimer -= Time.deltaTime;
+        //    if (deactivationTimer <= 0f)
+        //        Deactivate();
+        //}
     }
 
-    /// <summary>
-    /// Determines whether the column's collider is within the view frustum of the player camera.
-    /// </summary>
-    /// <returns><see langword="true"/> if the column's collider is at least partially visible to the player camera; otherwise,
-    /// <see langword="false"/>.</returns>
-    private bool IsVisible()
-    {
-        Plane[] planes = GeometryUtility.CalculateFrustumPlanes(playerCamera);
-        return GeometryUtility.TestPlanesAABB(planes, columnCollider.bounds);
-    }
-
-    private void Deactivate()
+    public void Deactivate()
     {
         isMoving = false;
         gameObject.SetActive(false);
@@ -95,7 +84,8 @@ public class Column : MonoBehaviour
     public void Activate()
     {
         isMoving = true;
-        alreadyDetected = false;
         gameObject.SetActive(true);
+
+        //deactivationTimer = (transform.position.x - boundaryX) / speed;
     }
 }
