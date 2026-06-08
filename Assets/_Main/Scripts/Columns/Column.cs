@@ -13,7 +13,6 @@ public class Column : MonoBehaviour
     private bool isMoving = true;
 
     // Cache references for performance
-    private Camera playerCamera;
     private BoxCollider2D columnCollider;
     [SerializeField] private float colliderOffsetSize = 1f;
 
@@ -22,7 +21,6 @@ public class Column : MonoBehaviour
 
     private void Awake()
     {
-        playerCamera = Camera.main;
         columnCollider = GetComponentInChildren<BoxCollider2D>();
         ApplyGap();
     }
@@ -65,14 +63,7 @@ public class Column : MonoBehaviour
     {
         if (!isMoving) return;
 
-        transform.Translate(speed * Time.deltaTime * -1f, 0, 0);
-
-        //if (deactivationTimer > 0f)
-        //{
-        //    deactivationTimer -= Time.deltaTime;
-        //    if (deactivationTimer <= 0f)
-        //        Deactivate();
-        //}
+        transform.Translate(Vector3.left * speed * Time.deltaTime);
     }
 
     public void Deactivate()
@@ -85,7 +76,5 @@ public class Column : MonoBehaviour
     {
         isMoving = true;
         gameObject.SetActive(true);
-
-        //deactivationTimer = (transform.position.x - boundaryX) / speed;
     }
 }

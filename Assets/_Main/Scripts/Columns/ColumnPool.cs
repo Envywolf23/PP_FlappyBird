@@ -10,12 +10,12 @@ public class ColumnPool : MonoBehaviour
     [SerializeField] private int initialPoolSizePerType = 2;
 
     // Pools for each column type
-    private Queue<Column> columnPool = new Queue<Column>();
+    private Stack<Column> columnPool = new Stack<Column>();
 
     private void Awake()
     {
         for (int i = 0; i < initialPoolSizePerType; i++)
-            columnPool.Enqueue(CreateNewColumn());
+            columnPool.Push(CreateNewColumn());
     }
 
     /// <summary>
@@ -28,17 +28,12 @@ public class ColumnPool : MonoBehaviour
     /// instance is created, added to the pool, and returned.</returns>
     public Column GetColumnFromPool()
     {
-        foreach (var column in columnPool)
-        {
-            if (!column.gameObject.activeInHierarchy)
-            {
-                return column;
-            }
-        }
+        if(columnPool.Count > 0)
+            return columnPool.Pop();
 
         // If all columns are active, create a new one
         Column newColumn = CreateNewColumn();
-        columnPool.Enqueue(newColumn);
+        columnPool.Push(newColumn);
         //Debug.Log($"[ColumnPool] Pool expanded to {columnPool.Count} instances");
         return newColumn;
     }
@@ -54,5 +49,11 @@ public class ColumnPool : MonoBehaviour
         GameObject newColumn = Instantiate(columnPrefab);
         newColumn.SetActive(false);
         return newColumn.GetComponent<Column>();
+    }
+
+    public void ReturnColumnToPool(Column column)
+    {
+        column.Deactivate();
+        columnPool.Push(column);
     }
 }

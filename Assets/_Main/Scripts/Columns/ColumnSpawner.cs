@@ -1,4 +1,3 @@
-using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -44,7 +43,7 @@ public class ColumnSpawner : MonoBehaviour
         {
             if (activeColumns[i].transform.position.x < boundaryX)
             {
-                activeColumns[i].Deactivate();
+                columnPool.ReturnColumnToPool(activeColumns[i]);
 
                 int last = activeColumns.Count - 1;
                 activeColumns[i] = activeColumns[last];
